@@ -2,3 +2,8 @@ src/data
 src/cnn
 src/*.h.gch
 src/*.o
+
+doc/*.pdf
+doc/*.aux
+doc/*.log
+doc/*.out
