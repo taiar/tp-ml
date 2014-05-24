@@ -41,7 +41,8 @@ void loadImageSet(
     uint32_t aux;
 
     // Check magic number
-    int32_t magic; fread(&magic, sizeof(magic), 1, imagesFile);
+    int32_t magic;
+    fread(&magic, sizeof(magic), 1, imagesFile);
     BtoLEndian32(&magic);
     if (magic != magicExpected) {
       fprintf(stderr, "ERROR: Magic number mismatch reading image file \"%s\"! Expected 0x%X, got 0x%X\n",
@@ -71,6 +72,11 @@ void loadImageSet(
       fread(buff, sizeof(unsigned char), imageSz, imagesFile);
       // Set all values to be within -1 and 1 (inputs are between 0 and 255)
       for (size_t j = 0; j < imageSz; j++) data[i][j] = (buff[j] - 128.0) / 128.0;
+
+      // Visualizando as imagens
+      // printf("\n");
+      // printf("\n");
+      // printImage(data[i], imageR, imageC);
     }
     free(buff);
   }
@@ -95,7 +101,8 @@ void loadLabelSet(
     uint32_t aux;
 
     // Check magic number
-    int32_t magic; fread(&magic, sizeof(magic), 1, labelsFile);
+    int32_t magic;
+    fread(&magic, sizeof(magic), 1, labelsFile);
     BtoLEndian32(&magic);
     if (magic != magicExpected){
       fprintf(stderr, "ERROR: Magic number mismatch reading labels file \"%s\"! Expected 0x%X, got 0x%X\n", FName, magicExpected, magic);
@@ -223,21 +230,8 @@ int main(int argc, char ** argv){
 
   // Load test set
   size_t aux_imageR, aux_imageC, aux_imageSz;
-  loadImageSet(
-    (char*) "data/test-images",
-    aux,
-    aux_imageR,
-    aux_imageC,
-    aux_imageSz,
-    test
-  );
-  loadLabelSet(
-    (char*) "data/test-labels",
-    10,
-    testCnt,
-    testOut,
-    testLabel
-  );
+  loadImageSet((char*) "data/test-images", aux, aux_imageR, aux_imageC, aux_imageSz, test);
+  loadLabelSet((char*) "data/test-labels", 10,testCnt, testOut, testLabel);
 
   if (aux != testCnt) {
     fprintf(stderr, "ERROR: Test set size missmatch! %i images but %i labels.", aux, trainCnt);

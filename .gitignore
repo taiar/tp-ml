@@ -1,5 +1,6 @@
 src/data
 src/cnn
+src/deslocamento
 src/*.h.gch
 src/*.o
 
