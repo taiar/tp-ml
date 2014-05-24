@@ -23,7 +23,7 @@ clean_entradas:
 	${RMDIR} ${dir}
 
 clean:
-	rm -f cnn *.h.gch *.o deslocamento
+	rm -f cnn *.h.gch *.o deslocamento aprendendo
 
 cleanall: clean clean_entradas
 
@@ -35,6 +35,9 @@ main: entradas cnn
 
 deslocamento: entradas cnn
 	g++ -o deslocamento exp_deslocamento.cpp CNN.o ${CFLAGS}
+
+aprendendo: entradas cnn
+	g++ -o aprendendo exp_aprendendo.cpp CNN.o ${CFLAGS}
 
 tdesloc: deslocamento
 	./deslocamento 2 13 5 5 5 2 2 1 100 10
