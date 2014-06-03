@@ -39,6 +39,9 @@ deslocamento: entradas cnn
 aprendendo: entradas cnn
 	g++ -o aprendendo exp_aprendendo.cpp CNN.o ${CFLAGS}
 
+taprend: aprendendo
+	./aprendendo 2 13 5 5 5 2 2 1 100 10
+
 tdesloc: deslocamento
 	./deslocamento 2 13 5 5 5 2 2 1 100 10
 
