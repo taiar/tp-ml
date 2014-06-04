@@ -279,7 +279,7 @@ int main(int argc, char ** argv){
 
       // Compute and train the network
       int predicted = Net->Calculate(train[j], calcOut);
-      // Net->BackPropagate(trainOut[j], alpha);
+      Net->BackPropagate(trainOut[j], alpha);
 
       // Compute the output and check for errors
       errorCnt += trainLabel[j] != predicted;
