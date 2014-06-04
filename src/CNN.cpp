@@ -19,8 +19,6 @@ CCNN::CCNN(
   size_t classCnt,                // The number of classes in the classification
   size_t sqrtInput                // The square root of the input (assumes input is a square)
 ){
-  printf("((((((%d %d %d %d %d %d)))))))))\n", numConvolutionalLayers, numHiddenLayers,
-    *convFeatureMaps, *convKernelSizes, *convStepSize, *hiddenLayerUnits);
   ConstructNN(numConvolutionalLayers, numHiddenLayers, convFeatureMaps, convKernelSizes, convStepSize, hiddenLayerUnits, classCnt, sqrtInput);
 }
 
@@ -51,7 +49,6 @@ void CCNN::ConstructNN(
 
   // Initialize convolution layers
   for (int i = 0; i < numConvolutionalLayers; i++){
-    printf("##########################################%d\n", numConvolutionalLayers);
     m_Layer[i + 1].Construct(
       CONVOLUTIONAL,
       convFeatureMaps[i],
