@@ -43,7 +43,7 @@ taprend: aprendendo
 	./aprendendo 2 13 5 5 5 2 2 1 100 10
 
 tdesloc: deslocamento
-	./deslocamento 2 13 5 5 5 2 2 1 100 10
+	./deslocamento 1 25 4 2 1 100 10
 
 desloc1: deslocamento
 	./deslocamento 2 1 4 4 5 2 2 1 100 10
