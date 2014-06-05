@@ -12,6 +12,11 @@ void printImage(double * img, size_t R, size_t C) {
   }
 }
 
+void print_array(size_t trainCnt, size_t * trainL) {
+  for (int i = 0; i < trainCnt; ++i)
+    printf("%d\n", trainL[i]);
+}
+
 void BtoLEndian32(void * mem) {
   uint32_t data = *((uint32_t*)mem);
   uint32_t newData =
@@ -266,6 +271,8 @@ int main(int argc, char ** argv){
   Net->LoadWeightsRandom();
   double * calcOut = (double*)malloc(classCnt*sizeof(double));
   printf("Done!\n");
+
+  // print_array(trainCnt, trainLabel);
 
   // Train Network
   printf("Training has commenced.\n");
