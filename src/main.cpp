@@ -274,7 +274,7 @@ int main(int argc, char ** argv){
     size_t errorCnt = 0;
 
     for (size_t j = 0; j < trainCnt; j++) {
-      printf("%i-%i of %i-%i\r", i, j, epochs - 1, trainCnt - 1);
+      //printf("%i-%i of %i-%i\r", i, j, epochs - 1, trainCnt - 1);
 
       // Compute and train the network
       int predicted = Net->Calculate(train[j], calcOut);
