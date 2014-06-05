@@ -279,7 +279,16 @@ int main(int argc, char ** argv){
 
       // Compute and train the network
       int predicted = Net->Calculate(train[j], calcOut);
-      Net->BackPropagate(trainOut[j], alpha);
+
+      // Ignora o treinamento da base
+      // Net->BackPropagate(trainOut[j], alpha);
+
+      // Imprime Valor atingido pelos neurônios na camada convolucionária
+      Net->m_Layer[1].print("neuronios_1.txt", calcOut, Net->m_Layer[1].m_nFeatureMap);
+
+      // printImage(train[j], imageR, imageC); // ter certeza de que está imprimindo a imagem certa
+
+      return 0;
 
       // Compute the output and check for errors
       errorCnt += trainLabel[j] != predicted;
