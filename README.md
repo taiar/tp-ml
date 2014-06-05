@@ -24,8 +24,8 @@ tp-ml CNNs
 
 ## Experimento: Deslocamento (estamos aqui)
 - [x] Passo 1
-- [ ] Passo 2
-- [ ] Passo 3
+- [x] Passo 2
+- [x] Passo 3
 - [ ] Questão 1
 - [ ] Questão 2
 - [ ] Questão 3
