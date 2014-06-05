@@ -30,8 +30,11 @@ tp-ml CNNs
 - [ ] Questão 2
 - [ ] Questão 3
 - [ ] Questão 4
+
 ## Experimento: Aprendendo a aprender
+
 ## Experimento: *CNN* vs *MLP*
+- [x] Execução
 
 # Stacked Denoising Auto-Encoders
 ## Questões teóricas
