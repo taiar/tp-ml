@@ -415,6 +415,12 @@ void FeatureMap::Calculate(double *valueFeatureMapPrev, int idxFeatureMapPrev ) 
       value[k++] += Convolute(valueFeatureMapPrev, isize, row0, col0, kernel[idxFeatureMapPrev], ksize);
 }
 
+void FeatureMap::printNeuronio() {
+  for (int i = 0; i < pLayer->m_FeatureSize * pLayer->m_FeatureSize; ++i) {
+    printf("%lf ", value[i]);
+  }
+}
+
 double FeatureMap::Convolute(double *input, int size, int r0, int c0, double *weight,
   int kernel_size) {
   int i, j, k = 0;
