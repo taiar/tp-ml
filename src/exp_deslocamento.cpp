@@ -12,6 +12,19 @@ void printImage(double * img, size_t R, size_t C) {
   }
 }
 
+double * desloca5Pixels(double * img, size_t R, size_t C) {
+  double * tmp = (double*) malloc(C * R * sizeof(double));
+  size_t d = 15;
+  int c = 0;
+  for (size_t i = 0; i < R; i++) {
+    for (size_t j = 0; j < C; j++) {
+      tmp[c] = (j < C - d) ? img[i*C + j + d] : img[i*C + j - d];
+      c++;
+    }
+  }
+  return(tmp);
+}
+
 void BtoLEndian32(void * mem) {
   uint32_t data = *((uint32_t*)mem);
   uint32_t newData =
@@ -277,6 +290,9 @@ int main(int argc, char ** argv){
     for (size_t j = 0; j < trainCnt; j++) {
       printf("%i-%i of %i-%i\r", i, j, epochs - 1, trainCnt - 1);
 
+if (j = 999)
+{
+
       // Compute and train the network
       int predicted = Net->Calculate(train[j], calcOut);
 
@@ -284,14 +300,25 @@ int main(int argc, char ** argv){
       // Net->BackPropagate(trainOut[j], alpha);
 
       // Imprime Valor atingido pelos neurônios na camada convolucionária
-      Net->m_Layer[1].print("neuronios_1.txt", calcOut, Net->m_Layer[1].m_nFeatureMap);
+      Net->m_Layer[1].m_FeatureMap[0].printNeuronio();
 
       // printImage(train[j], imageR, imageC); // ter certeza de que está imprimindo a imagem certa
+      double * tst = desloca5Pixels(train[j], imageR, imageC); // obtém imagem deslocada
+      predicted = Net->Calculate(tst, calcOut); // reaplicando entrada na rede
+      // printImage(tst, imageR, imageC); // ter certeza do deslocamento
 
+      // Imprime Valor atingido pelos neurônios na camada convolucionária após deslocamento
+      // Net->m_Layer[1].print("neuronios_2.txt", calcOut, Net->m_Layer[1].m_nFeatureMap);
+      printf("\n");
+      printf("\n");
+      printf("\n");
+
+      Net->m_Layer[1].m_FeatureMap[0].printNeuronio();
       return 0;
 
       // Compute the output and check for errors
       errorCnt += trainLabel[j] != predicted;
+}
     }
 
     // Converge alpha so as to refine the search in kernel-space

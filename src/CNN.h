@@ -59,6 +59,7 @@ public:
   void ClearDError();
   void ClearDiagHessian();
   void ClearDErrWRTW();
+  void printNeuronio();
 
   double Convolute(double *input, int size, int r0, int c0, double *weight, int kernel_size);
   void Calculate(double *valueFeatureMapPrev, int idxFeatureMapPrev );
