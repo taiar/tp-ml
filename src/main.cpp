@@ -251,8 +251,8 @@ int main(int argc, char ** argv){
   printf("Done!\n");
 
   // Trick the program into thinking it has less samples than it does
-  trainCnt = 10000;
-  testCnt = 1000;
+  // trainCnt = 10000;
+  // testCnt = 1000;
 
   printf("Got %i training samples and %i test samples, with image dims %i x %i = %i\n", trainCnt,
     testCnt, imageR, imageC, imageSz);
