@@ -1,4 +1,4 @@
-\documentclass[12pt, a4paper]{article}
+\documentclass[12pt, a4paper, brazil, portuguese]{article}
 
 \usepackage[margin=2.2cm]{geometry}
 
@@ -11,6 +11,10 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{sidecap}
+
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabela}
+
 \renewcommand\refname{Referências}
 \title{Trabalho Prático 2: Deep Learning}
 \date{Junho de 2014}
@@ -47,6 +51,84 @@
 \subsection{Experimento: Deslocamento }
 \subsection{Experimento: Aprendendo a aprender}
 \subsection{Experimento: \emph{CNN} vs \emph{MLP}}
+
+Para este experimento, compilamos e executamos o programa como foi fornecido (treinando e testando
+todo o conjunto de imagens fornecidas). Fizemos a execução utilizando 30 épocas e repetimos os
+testes 8 vezes para obter um desvio padrão. Executamos o programa desta forma para gerar os CNNs:
+
+\begin{verbatim}
+./cnn 2 13 5 5 5 2 2 1 100 30
+\end{verbatim}
+
+E executamos desta forma para os MLPs:
+
+\begin{verbatim}
+./cnn 0 1 100 30
+\end{verbatim}
+
+Um script chamado src\//3\_4\_cnn\_vs\_mlp.sh foi criado afim de automatizar a execução do programa
+e a obtenção dos dados gerados. O gráfico das Acurácias médias nas execuções por Épocas e seu desvio
+padrão para ambos os casos pode ser visto no gráfico da figura ~\ref{fig:cnn_mlp}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width = \textwidth]{gra.pdf}
+  \caption{Gráfico de Acurácia por Épocas usando CNN e MLP}
+  \label{fig:cnn_mlp}
+\end{figure}
+
+Na tabela ~\ref{tab:testes_um} podem ser vistas as Acurácias médias e seus desvios padrões obtidos
+nos testes.
+\begin{table}
+  \begin{tabular}{ c c  c  c  c }
+    Classe & Acur. CNN (\%) & Desvio Padrão CNN & Acur. MLP (\%) & Desvio Padrão MLP \\
+    \hline
+    0 & 99.0055 & 1.4142 & 98.4563 & 1.4142 \\
+    1 & 99.2730 & 1.4142 & 98.8548 & 1.4142 \\
+    2 & 97.6381 & 1.4142 & 96.6931 & 1.4142 \\
+    3 & 97.5497 & 1.4142 & 97.4631 & 1.4142 \\
+    4 & 97.7213 & 1.4142 & 96.7287 & 1.1726 \\
+    5 & 97.5197 & 1.4142 & 95.5018 & 1.2247 \\
+    6 & 97.8210 & 1.4142 & 97.7426 & 1.4142 \\
+    7 & 96.4613 & 1.4142 & 94.9172 & 1.4142 \\
+    8 & 97.9723 & 1.4142 & 96.8686 & 1.4142 \\
+    9 & 96.9028 & 1.1726 & 96.1350 & 1.4142 \\
+  \end{tabular}
+  \caption{Tabela de Acurácia nos testes}
+  \label{tab:testes_um}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Stacked Denoising Auto-Encoders}
 \subsection{Questões teóricas}
@@ -91,7 +173,6 @@
 % \end{itemize}
 %
 % Em particular, para treinar o modelo de LeCun sobre os dados de entrada 10 vezes (épocas) tem-se:
-% \begin{verbatim}
   % ./CNN 2 13 5 5 5 2 2 1 100 10
 % \end{verbatim}
 %
