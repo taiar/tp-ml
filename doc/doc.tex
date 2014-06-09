@@ -11,6 +11,7 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{sidecap}
+\usepackage{listings}
 
 \renewcommand{\figurename}{Figura}
 \renewcommand{\tablename}{Tabela}
@@ -28,37 +29,103 @@
 \maketitle
 
 \section{Convolutional Neural Networks}
-\subsection{Questões teóricas}
-\paragraph{1} Explique o que são e para que servem cada um dos seguintes conceitos, no contexto de
-  \emph{CNNs}:
-\begin{itemize}
-  \item Feature Map:
-  \item Kernel:
-  \item Convolution:
-  \item Pooling:
-  \item O step-size usado na implementação:
-\end{itemize}
-
-\paragraph{2} \emph{CNNs} tipicamente possuem 4 tipos de camadas: Uma camada de entrada, uma ou mais
-  camadas de convolução, uma ou mais ``camadas escondidas'', e uma camada de saída. Explique a
-  função que cada qual possui, e associe isto com seu padrão de conectividade.
-
-\paragraph{3} O termo \emph{kernel} em \emph{CNNs} refere ao conjunto de pesos aplicados nas
-  entradas dos \emph{feature maps}. Este termo também aparece em outros modelos, como, por exemplo,
-  o \emph{SVM}. Neste caso particular, de que forma estes dois conceitos são similares? Qual é a
-  significância do \emph{kernel} na classificação de um \emph{CNN}?
+%\subsection{Questões teóricas}
+%\paragraph{1} Explique o que são e para que servem cada um dos seguintes conceitos, no contexto de
+%  \emph{CNNs}:
+%\begin{itemize}
+%  \item Feature Map:
+%  \item Kernel:
+%  \item Convolution:
+%  \item Pooling:
+%  \item O step-size usado na implementação:
+%\end{itemize}
+%
+%\paragraph{2} \emph{CNNs} tipicamente possuem 4 tipos de camadas: Uma camada de entrada, uma ou mais
+%  camadas de convolução, uma ou mais ``camadas escondidas'', e uma camada de saída. Explique a
+%  função que cada qual possui, e associe isto com seu padrão de conectividade.
+%
+%\paragraph{3} O termo \emph{kernel} em \emph{CNNs} refere ao conjunto de pesos aplicados nas
+%  entradas dos \emph{feature maps}. Este termo também aparece em outros modelos, como, por exemplo,
+%  o \emph{SVM}. Neste caso particular, de que forma estes dois conceitos são similares? Qual é a
+%  significância do \emph{kernel} na classificação de um \emph{CNN}?
 
 \subsection{Experimento: Deslocamento }
 Para executar o experimento, utilizamos inicialmente o programa padrão que fora fornecido sem
 alterações com os seguintes parâmetros:
 
 \begin{verbatim}
-./deslocamento 1 25 4 2 1 100 10
+./cnn 1 25 4 2 1 100 10
 \end{verbatim}
 
-Dessa forma utilizamos apenas uma primeira camada convolucional
+Dessa forma utilizamos apenas uma primeira camada convolucional com um único \emph{Feature Map} de
+largura 25 (ou seja, com um kernel de tamanho 4). Para conseguir aplicar uma entrada qualquer na
+rede sem a fase de treino, foi preciso fazer uma alteração na função main do programa e, para isso,
+criamos o arquivo \emph{exp\_deslocamento.cpp} aonde implementaremos todas as alterações necessárias.
 
-\subsection{Experimento: Aprendendo a aprender}
+Dentro do loop principal da sessão de treinamento do programa, efetuamos as seguintes modificações:
+
+\begin{lstlisting}[language=c]
+  ...
+  // selecao de uma entrada qualquer
+  if (j = 999) {
+    // calcula o valor previsto para a entrada
+    int predicted = Net->Calculate(train[j], calcOut);
+
+    // exibe valor atingido pelo neuronio na camada convolucionaria
+    Net->m_Layer[1].m_FeatureMap[0].printNeuronio();
+
+    // desloca os pixels em 5 unidades para a esquerda
+    double * tst = desloca5Pixels(train[j], imageR, imageC);
+
+    // reaplica entrada deslocada na rede
+    predicted = Net->Calculate(tst, calcOut);
+
+    // exibe valor atingido pelo neuronio na camada convolucionaria
+    Net->m_Layer[1].m_FeatureMap[0].printNeuronio();
+    ...
+  }
+  ...
+\end{lstlisting}
+
+A função de deslocamento dos píxels foi implementada da seguinte forma:
+
+\begin{lstlisting}[language=c]
+
+double * desloca5Pixels(double * img, size_t R, size_t C) {
+  double * tmp = (double*) malloc(C * R * sizeof(double));
+  size_t d = 5;
+  int c = 0;
+  for (size_t i = 0; i < R; i++) {
+    for (size_t j = 0; j < C; j++) {
+      tmp[c] = (j < C - d) ? img[i*C + j + d] : img[i*C + j - d];
+      c++;
+    }
+  }
+  return(tmp);
+}
+
+\end{lstlisting}
+
+A função printNeurônio foi implementada na classe FeatureMap da seguinte forma:
+
+\begin{lstlisting}[language=c]
+
+void FeatureMap::printNeuronio() {
+  for (int i = 0; i < pLayer->m_FeatureSize * pLayer->m_FeatureSize; ++i) {
+    printf("%lf ", value[i]);
+  }
+}
+
+\end{lstlisting}
+
+Apesar de acreditar que fizemos as implementações corretas nos lugares certos, não conseguimos
+pensar em uma maneira de plotar com esses resultados um mapa de calor e também não conseguimos
+visualizar as ativações na camada convolucional mas, como foi mencionado, elas devem se mover
+proporcionalmente ao deslocamento fornecido.
+
+
+%\subsection{Experimento: Aprendendo a aprender}
+
 \subsection{Experimento: \emph{CNN} vs \emph{MLP}}
 
 Para este experimento, compilamos e executamos o programa como foi fornecido (treinando e testando
@@ -88,7 +155,7 @@ padrão para ambos os casos pode ser visto no gráfico da figura ~\ref{fig:cnn_m
 
 Na tabela ~\ref{tab:testes_um} podem ser vistas as Acurácias médias e seus desvios padrões obtidos
 nos testes.
-\begin{table}[h]
+\begin{table}
   \begin{tabular}{ c c  c  c  c }
     Classe & Acur. CNN (\%) & Desvio Padrão CNN & Acur. MLP (\%) & Desvio Padrão MLP \\
     \hline
@@ -114,13 +181,13 @@ mais do que o MLP. Se uma melhora de acurácia de $0,5\%$ representa $50\%$ de e
 teste, claramente vale a pena utilizar o CNN pois para algumas classes houve uma diferença de
 performance de quase $2\%$. Além do quê, a execução do CNN é visivelmente mais rápida do que a MLP.
 
-\section{Stacked Denoising Auto-Encoders}
-\subsection{Questões teóricas}
-\subsection{Experimento: Valores latentes}
-\subsection{Classifique}
+% \section{Stacked Denoising Auto-Encoders}
+% \subsection{Questões teóricas}
+% \subsection{Experimento: Valores latentes}
+% \subsection{Classifique}
 
 
-\section{Tarefas Opcionais}
+% \section{Tarefas Opcionais}
 % NO SUBSECTION TILL YOU MADE IT
 %
 % \section{Convolutional Neural Networks}
