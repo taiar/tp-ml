@@ -49,6 +49,15 @@
   significância do \emph{kernel} na classificação de um \emph{CNN}?
 
 \subsection{Experimento: Deslocamento }
+Para executar o experimento, utilizamos inicialmente o programa padrão que fora fornecido sem
+alterações com os seguintes parâmetros:
+
+\begin{verbatim}
+./deslocamento 1 25 4 2 1 100 10
+\end{verbatim}
+
+Dessa forma utilizamos apenas uma primeira camada convolucional
+
 \subsection{Experimento: Aprendendo a aprender}
 \subsection{Experimento: \emph{CNN} vs \emph{MLP}}
 
@@ -79,7 +88,7 @@ padrão para ambos os casos pode ser visto no gráfico da figura ~\ref{fig:cnn_m
 
 Na tabela ~\ref{tab:testes_um} podem ser vistas as Acurácias médias e seus desvios padrões obtidos
 nos testes.
-\begin{table}
+\begin{table}[h]
   \begin{tabular}{ c c  c  c  c }
     Classe & Acur. CNN (\%) & Desvio Padrão CNN & Acur. MLP (\%) & Desvio Padrão MLP \\
     \hline
@@ -98,37 +107,12 @@ nos testes.
   \label{tab:testes_um}
 \end{table}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Analisando o gráfico da acurácias por épocas podemos perceber que, para poucas épocas (até no máximo
+5) na fase de treino, o MLP tem uma vantagem de acurácia sobre o CNN. À partir de 5 épocas, o CNN
+consegue ser mais preciso do que o MLP. Analisando os testes, percebemos que o CNN sempre acerta
+mais do que o MLP. Se uma melhora de acurácia de $0,5\%$ representa $50\%$ de erros a menos para um
+teste, claramente vale a pena utilizar o CNN pois para algumas classes houve uma diferença de
+performance de quase $2\%$. Além do quê, a execução do CNN é visivelmente mais rápida do que a MLP.
 
 \section{Stacked Denoising Auto-Encoders}
 \subsection{Questões teóricas}
