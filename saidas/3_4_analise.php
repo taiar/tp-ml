@@ -70,6 +70,23 @@
         $this->mean_epoch[$i] = $mean;
         $this->standard_deviation_epoch[$i] = $this->deviation($arr, $mean);
       }
+
+      $this->standard_deviation_class = array();
+      $arr = array();
+      $mean = 0;
+
+      for ($i=0; $i < $this->classes; $i++) {
+        $arr = array();
+        $mean = 0;
+        for ($j=0; $j < $this->num_runs; $j++) {
+          $arr[] = $this->runs[$j]->get_class($i)['por'];
+          $mean += $this->runs[$j]->get_class($i)['por'];
+        }
+        $mean = $mean / $this->num_runs;
+        $this->mean_class[$i] = $mean;
+        $this->standard_deviation_class[$i] = $this->deviation($arr, $mean);
+
+      }
     }
 
     private function deviation($arr, $mean) {
@@ -145,51 +162,67 @@
   require_once ('jpgraph/src/jpgraph_log.php');
   require_once ('jpgraph/src/jpgraph_bar.php');
 
-  $a = new run_analys('3_4_saida_cnn');
+  $a = new run_analys('ext_cnn');
   $a->read();
   $a->proccess();
 
-  $b = new run_analys('3_4_saida_mlp');
+  echo print_r($a->standard_deviation_epoch);
+  echo print_r($a->mean_epoch);
+  echo print_r($a->standard_deviation_class);
+  echo print_r($a->mean_class);
+
+  $b = new run_analys('ext_mlp');
   $b->read();
   $b->proccess();
 
-  $graph_a = new Graph(800, 500, 'auto');
-  $graph_a->SetScale("intint");
-  $graph_a->SetY2Scale("log");
+  echo print_r($b->standard_deviation_epoch);
+  echo print_r($b->standard_deviation_class);
+  echo print_r($b->mean_epoch);
+  echo print_r($b->mean_class);
 
-  $theme_class = new UniversalTheme;
-  $graph_a->SetTheme($theme_class);
+  // echo print_r($b->mean_epoch);
+  // echo print_r($b->standard_deviation_epoch);
 
-  $graph_a->yaxis->SetTickPositions(array(50,60,70,80,90,100),
-    array(55,65,75,85,95));
+  // $graph_a = new Graph(800, 500, 'auto');
+  // $graph_a->SetScale("textint");
 
-  $graph_a->SetBox(false);
+  // $theme_class = new UniversalTheme;
+  // $graph_a->SetTheme($theme_class);
 
-  $graph_a->ygrid->SetFill(false);
-  $graph_a->xaxis->SetTickLabels(array('1','2','3','4','5','6','7','8','9','10','11','12','13','14',
-    '15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'));
-  $graph_a->yaxis->HideLine(false);
-  $graph_a->yaxis->HideTicks(false,false);
+  // $graph_a->yaxis->SetTickPositions(array(50,60,70,80,90,100),
+  //   array(55,65,75,85,95));
 
-  // Create the bar plots
-  $b1plot = new BarPlot($a->mean_epoch);
-  $b2plot = new BarPlot($b->mean_epoch);
+  // $graph_a->SetBox(false);
 
-  // Create the grouped bar plot
-  $gbplot = new GroupBarPlot(array($b1plot,$b2plot));
-  $graph_a->Add($gbplot);
+  // $graph_a->ygrid->SetFill(false);
+  // $graph_a->xaxis->SetTickLabels(array('1','2','3','4','5','6','7','8','9','10','11','12','13','14',
+  //   '15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'));
+  // $graph_a->yaxis->HideLine(false);
+  // $graph_a->yaxis->HideTicks(false,false);
 
-  $b1plot->SetColor("white");
-  $b1plot->SetFillColor("#cc1111");
+  // // Create the bar plots
+  // $b1plot = new BarPlot($a->mean_epoch);
+  // $b2plot = new BarPlot($b->mean_epoch);
 
-  $b2plot->SetColor("white");
-  $b2plot->SetFillColor("#11cccc");
+  // // Create the grouped bar plot
+  // $gbplot = new GroupBarPlot(array($b1plot,$b2plot));
+  // $graph_a->Add($gbplot);
 
-  $graph_a->title->Set("CNNs");
+  // $b1plot->SetColor("white");
+  // $b1plot->SetFillColor("#cc1111");
+  // $b1plot->SetLegend("CNNs");
 
-  $graph_a->Stroke(dirname(__FILE__) . '/cnn.png');
+  // $b2plot->SetColor("white");
+  // $b2plot->SetFillColor("#11cccc");
+  // $b2plot->SetLegend("MLPs");
+
+  // $graph_a->title->Set("Acurácia em CNNs e MLPs por Épocas");
+  // $graph_a->yaxis->title->Set('Acurácia (%)');
+  // $graph_a->xaxis->title->Set('Época');
+
+  // $graph_a->Stroke(dirname(__FILE__) . '/cnn_vs_mlp.png');
 
   // echo print_r($a->mean_epoch);
   // echo print_r($a->standard_deviation_epoch);
   // echo print_r($b->mean_epoch);
-  // echo print_r($b->standard_deviation_epoch);
+  // echo print_r($b->sqtandard_deviation_epoch);
